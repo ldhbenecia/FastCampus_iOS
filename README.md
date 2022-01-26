@@ -1,2 +1,3 @@
-# FastCampus_iOS
-Private iOS Practice
+## :: FastCampus_iOS
+
+##### 30 projects for Practicing iOS
