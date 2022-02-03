@@ -11,11 +11,16 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var collectionView: UICollectionView!
     
-    private var diaryList = [Diary]()
+    private var diaryList = [Diary]() {
+        didSet {
+            self.saveDiaryList() //diaryList 추가 되거나 변경이 될때마다 UserDefaults에 저장
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureCollectionView()
+        self.loadDiaryList() // 앱을 재실행해도 등록한 일기가 사라지지 않고 남아있음
     }
     
     private func configureCollectionView() {
@@ -29,6 +34,35 @@ class ViewController: UIViewController {
         if let writeDiaryViewController = segue.destination as? WriteDiaryViewController {
             writeDiaryViewController.delegate = self
         }
+    }
+    
+    // 앱을 재실행하면 일기가 전부 사라져버리기 때문에 등록한 일기가 사라지지 않기 위한 코드
+    private func saveDiaryList() {
+        let date = self.diaryList.map {
+            [
+                "title": $0.title,
+                "contents": $0.contents,
+                "date": $0.date,
+                "isStar": $0.isStar
+            ]
+        }
+        let userDefaults = UserDefaults.standard // UserDefaults에 접근할 수 있도록
+        userDefaults.set(date, forKey: "diaryList")
+    }
+    
+    private func loadDiaryList() {
+        let userDefaults = UserDefaults.standard
+        guard let data = userDefaults.object(forKey: "diaryList") as? [[String: Any]] else { return } // any타입으로 리턴되기 때문에 타입캐스팅, 타입캐스팅에 실패하면 nil이 될 수 있으므로 guard let 구문으로 옵셔널 바인딩
+        self.diaryList = data.compactMap {
+            guard let title = $0["title"] as? String else { return nil }
+            guard let contents = $0["contents"] as? String else { return nil }
+            guard let date = $0["date"] as? Date else { return nil }
+            guard let isStar = $0["isStar"] as? Bool else { return nil }
+            return Diary(title: title, contents: contents, date: date, isStar: isStar)
+        } // 불러온 데이터를 diaryList에 넣어줌
+        self.diaryList = self.diaryList.sorted(by: {
+            $0.date.compare($1.date) == .orderedDescending // 오른쪽 날짜와 비교하여 오름차순 정렬, 일기 최신순 정렬
+        })
     }
     
     // date타입을 전달받으면 문자열로 만드는 함수
@@ -64,6 +98,9 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
 extension ViewController: WriteDiaryViewDelegate {
     func didSelectRegister(diary: Diary) {
         self.diaryList.append(diary)
-        self.collectionView.reloadData()
+        self.diaryList = self.diaryList.sorted(by: {
+            $0.date.compare($1.date) == .orderedDescending // 오른쪽 날짜와 비교하여 오름차순 정렬, 일기 최신 순 정렬
+        })
+        self.collectionView.reloadData() // 일기를 추가할 때마다 콜렉션뷰에 일기목록이 표시 됨
     }
 }
