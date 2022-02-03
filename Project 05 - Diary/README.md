@@ -9,6 +9,10 @@
 
 
 * 01.30 ~ 진행 중
+
+* 2022.02.03 일기 작성, 삭제 기능구현
 * tabBarController로 사용
 * UICollectionView 사용
 * DatePicker 코드로 구현
+* UserDefaults 사용
+* 코드에 주석 설명 처리
