@@ -68,7 +68,7 @@ class ViewController: UIViewController {
     // date타입을 전달받으면 문자열로 만드는 함수
     private func dateToString(date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yy년 mm월 dd일(EEEEE)"
+        formatter.dateFormat = "yy년 MM월 dd일(EEEEE)"
         formatter.locale = Locale(identifier: "ko-KR")
         return formatter.string(from: date)
     }
@@ -95,6 +95,18 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let viewController = self.storyboard?.instantiateViewController(identifier: "DiaryDetailViewController") as? DiaryDetailViewController else { return }
+        let diary = self.diaryList[indexPath.row]
+        viewController.diary = diary
+        viewController.indexPath = indexPath
+        viewController.delegate = self
+        self.navigationController?.pushViewController(viewController, animated: true)
+    } // didSelectItemAt 특정 셀이 선택되었음을 알리는 메서드
+    // 일기장 화면에서 일기를 선택하였을 때 일기 상세화면으로 이동하고 상세화면에서 일기의 상세 내용을 볼 수 있음
+}
+
 extension ViewController: WriteDiaryViewDelegate {
     func didSelectRegister(diary: Diary) {
         self.diaryList.append(diary)
@@ -102,5 +114,12 @@ extension ViewController: WriteDiaryViewDelegate {
             $0.date.compare($1.date) == .orderedDescending // 오른쪽 날짜와 비교하여 오름차순 정렬, 일기 최신 순 정렬
         })
         self.collectionView.reloadData() // 일기를 추가할 때마다 콜렉션뷰에 일기목록이 표시 됨
+    }
+}
+
+extension ViewController: DiaryDetailViewDelegate {
+    func didSelectDelete(indexPath: IndexPath) {
+        self.diaryList.remove(at: indexPath.row)
+        self.collectionView.deleteItems(at: [indexPath])
     }
 }

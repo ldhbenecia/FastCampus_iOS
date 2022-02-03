@@ -163,7 +163,7 @@
                     <navigationItem key="navigationItem" title="일기 작성" id="idY-nO-c36">
                         <barButtonItem key="rightBarButtonItem" title="등록" id="0Ac-Rb-2KL">
                             <connections>
-                                <action selector="tapComfirmButton:" destination="XXu-6D-ZLp" id="Y0z-RA-21i"/>
+                                <action selector="tapConfirmButton:" destination="XXu-6D-ZLp" id="caK-Za-F85"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -250,7 +250,7 @@
         <!--Diary Detail View Controller-->
         <scene sceneID="JQG-qY-bDq">
             <objects>
-                <viewController id="r2O-Mu-D4E" customClass="DiaryDetailViewController" customModule="Diary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DiaryDetailViewController" id="r2O-Mu-D4E" customClass="DiaryDetailViewController" customModule="Diary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Wd-p0-2lL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -312,6 +312,9 @@
                                         <rect key="frame" x="0.0" y="0.0" width="48.5" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="수정"/>
+                                        <connections>
+                                            <action selector="tapEditButton:" destination="r2O-Mu-D4E" eventType="touchUpInside" id="Wes-zZ-pak"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Klb-SQ-V9j">
                                         <rect key="frame" x="98.5" y="0.0" width="30" height="31"/>
@@ -319,6 +322,9 @@
                                         <state key="normal" title="삭제">
                                             <color key="titleColor" systemColor="systemRedColor"/>
                                         </state>
+                                        <connections>
+                                            <action selector="tapDeleteButton:" destination="r2O-Mu-D4E" eventType="touchUpInside" id="waK-ok-DkF"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -342,6 +348,11 @@
                             <constraint firstItem="f3N-oj-ti0" firstAttribute="trailing" secondItem="Ebf-bR-tNS" secondAttribute="trailing" constant="24" id="vae-j7-dYe"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="contentsTextView" destination="OlW-yS-nqK" id="k3c-S1-T15"/>
+                        <outlet property="dateLabel" destination="qqR-gB-vfV" id="SCE-OQ-Aao"/>
+                        <outlet property="titleLabel" destination="KCQ-af-bY8" id="gfK-ff-LVJ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fGa-Ss-lm3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

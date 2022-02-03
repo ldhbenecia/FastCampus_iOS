@@ -51,11 +51,11 @@ class WriteDiaryViewController: UIViewController {
         self.dateTextField.addTarget(self, action: #selector(dateTextFieldDidChange(_:)), for: .editingChanged)
     }
     
-    @IBAction func tapComfirmButton(_ sender: UIBarButtonItem) {
+    @IBAction func tapConfirmButton(_ sender: UIBarButtonItem) {
         guard let title = self.titleTextField.text else { return }
         guard let contents = self.contentsTextView.text else { return }
         guard let date = self.diaryDate else { return }
-        let diary = Diary(title: title, contetns: contents, date: date, isStar: false)
+        let diary = Diary(title: title, contents: contents, date: date, isStar: false)
         self.delegate?.didSelectRegister(diary: diary)
         self.navigationController?.popViewController(animated: true)
     }
