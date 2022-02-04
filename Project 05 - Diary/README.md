@@ -16,3 +16,6 @@
 * DatePicker 코드로 구현
 * UserDefaults 사용
 * 코드에 주석 설명 처리
+
+* 2022.02.04 일기장 수정 기능 구현
+* Notification 사용
