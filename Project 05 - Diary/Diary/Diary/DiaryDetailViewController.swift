@@ -17,6 +17,7 @@ class DiaryDetailViewController: UIViewController {
     @IBOutlet weak var contentsTextView: UITextView!
     @IBOutlet weak var dateLabel: UILabel!
     weak var delegate: DiaryDetailViewDelegate?
+    var starButton: UIBarButtonItem? // 일기 상세화면에서 right bar 버튼에 즐겨찾기 버튼 추가
     
     var diary: Diary?
     var indexPath: IndexPath?
@@ -31,6 +32,10 @@ class DiaryDetailViewController: UIViewController {
         self.titleLabel.text = diary.title
         self.contentsTextView.text = diary.contents
         self.dateLabel.text = self.dateToString(date: diary.date)
+        self.starButton = UIBarButtonItem(image: nil, style: .plain, target: self, action: #selector(tapStarButton))
+        self.starButton?.image = diary.isStar ? UIImage(systemName: "star.fill") : UIImage(systemName: "star") // image에 즐겨찾기가 되어있으면 userimage에 system이미지를 star.fill로 색칠된 별로 표시를 해주고 false 이면 userimage에 system이미지를 테두리만 있는 별을 표시
+        self.starButton?.tintColor = .orange
+        self.navigationItem.rightBarButtonItem = self.starButton // rightBarButton에 star표시 나옴
     }
     
     // date타입을 전달받으면 문자열로 만드는 함수
@@ -64,6 +69,10 @@ class DiaryDetailViewController: UIViewController {
         guard let indexPath = self.indexPath else { return }
         self.delegate?.didSelectDelete(indexPath: indexPath)
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func tapStarButton() {
+        
     }
     
     deinit {
