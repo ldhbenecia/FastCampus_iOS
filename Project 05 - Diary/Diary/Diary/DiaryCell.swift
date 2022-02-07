@@ -12,6 +12,7 @@ class DiaryCell: UICollectionViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     
+    // 구분선
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.contentView.layer.cornerRadius = 3.0

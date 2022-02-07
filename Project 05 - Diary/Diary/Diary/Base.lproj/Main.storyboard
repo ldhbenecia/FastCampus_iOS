@@ -196,7 +196,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StarCell" id="bot-Hy-Zlq">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="StarCell" id="bot-Hy-Zlq" customClass="StarCell" customModule="Diary" customModuleProvider="target">
                                         <rect key="frame" x="7" y="0.0" width="400" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="eO6-5w-UnY">
@@ -228,6 +228,10 @@
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="400" height="80"/>
+                                        <connections>
+                                            <outlet property="dateLabel" destination="DG3-0D-FUY" id="rYb-PB-nLt"/>
+                                            <outlet property="titleLabel" destination="gH7-a5-MIl" id="0Hg-ac-mE3"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -242,6 +246,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1o9-OJ-qho"/>
+                    <connections>
+                        <outlet property="collectionView" destination="gP4-gM-DS5" id="lQ6-lK-qD7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aNv-T0-PfW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
