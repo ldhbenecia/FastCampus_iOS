@@ -7,17 +7,24 @@
 
 import UIKit
 
-protocol DiaryDetailViewDelegate: AnyObject {
-    func didSelectDelete(indexPath: IndexPath)
-    func didSelectStar(indexPath: IndexPath, isStar: Bool)
-}
+/*
+ 일기장 상세화면에서 삭제 또는 즐겨찾기 토글이 일어나게 되면 델리게이트를 통해 일기장 화면의 indexPath와 즐겨찾기 여부를 전달하고 있음
+ 이렇게 되면 일대일로만 데이터를 전달할 수 있기 때문에 일기장 화면에서 일기장 상세화면으로 이동했을 때는 일기장 화면에만 델리게이트가 전달할 수 있고 즐겨찾기 화면에서 상세화면으로 이동했을 때는 즐겨찾기 화면에만 델리게이트를 전달할 수 있음
+ 그래서 이 델리게이트를 다 걷어내고 노티피케이션센터를 이용해서 일기장 상세화면에서 삭제 또는 즐겨찾기 토글 행위가 발생하면
+ 일기장 화면과 즐겨찾기 화면의 이벤트가 모두 전달되도록 로직을 변경
+ */
+
+// delegate를 notification으로 전부 로직 수정
+// 1. 즐겨찾기 토글이 일어났을 때 indexPath와 즐겨찾기 여부를 노티피케이션센터로 전달하는 코드 작성
+// 2. 삭제 기능
+// 3. 즐겨찾기 수정 삭제 노티피케이션 이벤트를 즐겨찾기 화면에 옵저빙 해서 이벤트가 일어나면 일기장 화면과 즐겨찾기 화면 모두 동기화
+// 4. 즐겨찾기 한 일기 즐겨찾기 화면에 추가
 
 class DiaryDetailViewController: UIViewController {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var contentsTextView: UITextView!
     @IBOutlet weak var dateLabel: UILabel!
-    weak var delegate: DiaryDetailViewDelegate?
     var starButton: UIBarButtonItem? // 일기 상세화면에서 right bar 버튼에 즐겨찾기 버튼 추가
     
     var diary: Diary?
@@ -68,7 +75,7 @@ class DiaryDetailViewController: UIViewController {
     
     @IBAction func tapDeleteButton(_ sender: UIButton) {
         guard let indexPath = self.indexPath else { return }
-        self.delegate?.didSelectDelete(indexPath: indexPath)
+        NotificationCenter.default.post(name: NSNotification.Name("deleteDiary"), object: indexPath, userInfo: nil)
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -81,7 +88,13 @@ class DiaryDetailViewController: UIViewController {
             self.starButton?.image = UIImage(systemName: "star.fill") // 꽉찬 별
         }
         self.diary?.isStar = !isStar // true이면 false 대입, false이면 true 대입
-        self.delegate?.didSelectStar(indexPath: indexPath, isStar: self.diary?.isStar ?? false) // 즐겨찾기 상태 전달
+        NotificationCenter.default.post(name: Notification.Name("starDiary"), object: [
+            "diary": self.diary,
+            "isStar": self.diary?.isStar ?? false,
+            "indexPath": indexPath
+        ],
+                                        userInfo: nil
+        )
     }
     
     deinit {

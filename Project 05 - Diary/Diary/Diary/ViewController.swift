@@ -21,8 +21,12 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         self.configureCollectionView()
         self.loadDiaryList() // 앱을 재실행해도 등록한 일기가 사라지지 않고 남아있음
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(editDiaryNotification(_:)), name: NSNotification.Name("editDiary"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(editDiaryNotification(_:)), name: NSNotification.Name("editDiary"), object: nil
+        )
+        NotificationCenter.default.addObserver(self, selector: #selector(starDiaryNotification(_:)), name: NSNotification.Name("starDiary"), object: nil
+        )
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteDiaryNotification(_:)), name: Notification.Name("deleteDiary"), object: nil
+        )
     }
     
     private func configureCollectionView() {
@@ -40,6 +44,20 @@ class ViewController: UIViewController {
             $0.date.compare($1.date) == .orderedDescending
         })
         self.collectionView.reloadData()
+    }
+    
+    @objc func starDiaryNotification(_ notification: Notification) {
+        guard let starDiary = notification.object as? [String: Any] else { return }
+        guard let isStar = starDiary["isStar"] as? Bool else { return }
+        guard let indexPath = starDiary["indexPath"] as? IndexPath else { return }
+        self.diaryList[indexPath.row].isStar = isStar // 일기장 화면에서 즐겨찾기 토글이 일어나면 이 코드가 똑같이 실행되어야 함. didselect 메서드에 있음
+    }
+            
+    @objc func deleteDiaryNotification(_ notification: Notification) {
+        guard let indexPath = notification.object as? IndexPath else { return }
+        self.diaryList.remove(at: indexPath.row)
+        self.collectionView.deleteItems(at: [indexPath])
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -113,7 +131,6 @@ extension ViewController: UICollectionViewDelegate {
         let diary = self.diaryList[indexPath.row]
         viewController.diary = diary
         viewController.indexPath = indexPath
-        viewController.delegate = self
         self.navigationController?.pushViewController(viewController, animated: true)
     } // didSelectItemAt 특정 셀이 선택되었음을 알리는 메서드
     // 일기장 화면에서 일기를 선택하였을 때 일기 상세화면으로 이동하고 상세화면에서 일기의 상세 내용을 볼 수 있음
@@ -126,16 +143,5 @@ extension ViewController: WriteDiaryViewDelegate {
             $0.date.compare($1.date) == .orderedDescending // 오른쪽 날짜와 비교하여 오름차순 정렬, 일기 최신 순 정렬
         })
         self.collectionView.reloadData() // 일기를 추가할 때마다 콜렉션뷰에 일기목록이 표시 됨
-    }
-}
-
-extension ViewController: DiaryDetailViewDelegate {
-    func didSelectDelete(indexPath: IndexPath) {
-        self.diaryList.remove(at: indexPath.row)
-        self.collectionView.deleteItems(at: [indexPath])
-    }
-    
-    func didSelectStar(indexPath: IndexPath, isStar: Bool) {
-        self.diaryList[indexPath.row].isStar = isStar
     }
 }
