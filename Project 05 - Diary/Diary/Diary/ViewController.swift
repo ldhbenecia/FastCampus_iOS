@@ -38,8 +38,8 @@ class ViewController: UIViewController {
     
     @objc func editDiaryNotification(_ notification: Notification) {
         guard let diary = notification.object as? Diary else { return } // 전달받은 diary 객체 가져옴
-        guard let row = notification.userInfo?["indexPath.row"] as? Int else { return }
-        self.diaryList[row] = diary
+        guard let index = self.diaryList.firstIndex(where: { $0.uuidString == diary.uuidString }) else { return }
+        self.diaryList[index] = diary //수정이 일어나게 되면 index가 아닌 uuidString으로 배열의 요소에 똑같은 uuidString이 있는지 찾고 있으면 그 배열의 요소의 index를 통해서 그 배열을 업데이트 할 수 있음
         self.diaryList = self.diaryList.sorted(by: {
             $0.date.compare($1.date) == .orderedDescending
         })
@@ -49,14 +49,16 @@ class ViewController: UIViewController {
     @objc func starDiaryNotification(_ notification: Notification) {
         guard let starDiary = notification.object as? [String: Any] else { return }
         guard let isStar = starDiary["isStar"] as? Bool else { return }
-        guard let indexPath = starDiary["indexPath"] as? IndexPath else { return }
-        self.diaryList[indexPath.row].isStar = isStar // 일기장 화면에서 즐겨찾기 토글이 일어나면 이 코드가 똑같이 실행되어야 함. didselect 메서드에 있음
+        guard let uuidString = starDiary["uuidString"] as? String else { return }
+        guard let index = self.diaryList.firstIndex(where: { $0.uuidString == uuidString }) else { return }
+        self.diaryList[index].isStar = isStar // 일기장 화면에서 즐겨찾기 토글이 일어나면 이 코드가 똑같이 실행되어야 함. didselect 메서드에 있음
     }
             
     @objc func deleteDiaryNotification(_ notification: Notification) {
-        guard let indexPath = notification.object as? IndexPath else { return }
-        self.diaryList.remove(at: indexPath.row)
-        self.collectionView.deleteItems(at: [indexPath])
+        guard let uuidString = notification.object as? String else { return }
+        guard let index = self.diaryList.firstIndex(where: { $0.uuidString == uuidString }) else { return }
+        self.diaryList.remove(at: index)
+        self.collectionView.deleteItems(at: [IndexPath(row: index, section: 0)])
         
     }
     
@@ -70,6 +72,7 @@ class ViewController: UIViewController {
     private func saveDiaryList() {
         let date = self.diaryList.map {
             [
+                "uuidString": $0.uuidString,
                 "title": $0.title,
                 "contents": $0.contents,
                 "date": $0.date,
@@ -84,11 +87,12 @@ class ViewController: UIViewController {
         let userDefaults = UserDefaults.standard
         guard let data = userDefaults.object(forKey: "diaryList") as? [[String: Any]] else { return } // any타입으로 리턴되기 때문에 타입캐스팅, 타입캐스팅에 실패하면 nil이 될 수 있으므로 guard let 구문으로 옵셔널 바인딩
         self.diaryList = data.compactMap {
+            guard let uuidString = $0["uuidString"] as? String else { return nil }
             guard let title = $0["title"] as? String else { return nil }
             guard let contents = $0["contents"] as? String else { return nil }
             guard let date = $0["date"] as? Date else { return nil }
             guard let isStar = $0["isStar"] as? Bool else { return nil }
-            return Diary(title: title, contents: contents, date: date, isStar: isStar)
+            return Diary(uuidString: uuidString, title: title, contents: contents, date: date, isStar: isStar)
         } // 불러온 데이터를 diaryList에 넣어줌
         self.diaryList = self.diaryList.sorted(by: {
             $0.date.compare($1.date) == .orderedDescending // 오른쪽 날짜와 비교하여 오름차순 정렬, 일기 최신순 정렬
