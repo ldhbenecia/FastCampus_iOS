@@ -56,4 +56,4 @@
 
 * 2022.02.11 에러처리 끝
 
-src="https://user-images.githubusercontent.com/77393976/153582659-7a54f1aa-cfb6-4f08-91f5-34c0b1148426.png">
+<img width="1116" alt="스크린샷 2022-02-11 오후 8 02 34" src="https://user-images.githubusercontent.com/77393976/153582659-7a54f1aa-cfb6-4f08-91f5-34c0b1148426.png">
