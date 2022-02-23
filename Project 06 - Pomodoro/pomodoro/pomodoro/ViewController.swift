@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 enum TimerStatus {
     case start
@@ -48,12 +49,18 @@ class ViewController: UIViewController {
             self.timer = DispatchSource.makeTimerSource(flags: [], queue: .main)
             self.timer?.schedule(deadline: .now(), repeating: 1)
             self.timer?.setEventHandler(handler: { [weak self] in
-                self?.currentSeconds -= 1
-                debugPrint(self?.currentSeconds)
+                guard let self = self else { return }
+                self.currentSeconds -= 1
+                let hour = self.currentSeconds / 3600 // 시를 구할 수 있음
+                let minutes = (self.currentSeconds % 3600) / 60 // 분
+                let seconds = (self.currentSeconds % 3600) % 60 // 초
+                self.timerLabel.text = String(format: "%02d:%02d:%02d", hour, minutes, seconds)
+                self.progreeView.progress = Float(self.currentSeconds) / Float(self.duration)
                 
-                if self?.currentSeconds ?? 0 <= 0 {
-                    self?.startTimer()
+                if self.currentSeconds <= 0 {
+                    self.startTimer()
                     // 타이머가 종료
+                    AudioServicesPlaySystemSound(1005) // 알림음 출력
                 }
             })
             self.timer?.resume()
