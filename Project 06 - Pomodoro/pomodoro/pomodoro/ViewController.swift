@@ -16,6 +16,7 @@ enum TimerStatus {
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var progreeView: UIProgressView!
     @IBOutlet weak var datePicker: UIDatePicker!
@@ -56,6 +57,12 @@ class ViewController: UIViewController {
                 let seconds = (self.currentSeconds % 3600) % 60 // 초
                 self.timerLabel.text = String(format: "%02d:%02d:%02d", hour, minutes, seconds)
                 self.progreeView.progress = Float(self.currentSeconds) / Float(self.duration)
+                UIView.animate(withDuration: 0.5, delay: 0, animations: {
+                    self.imageView.transform = CGAffineTransform(rotationAngle: .pi) //180도 회전, 2D 그래픽을 그릴 수 있음.
+                })
+                UIView.animate(withDuration: 0.5, delay: 0.5, animations:{
+                    self.imageView.transform = CGAffineTransform(rotationAngle: .pi * 2) //360도 회전
+                })
                 
                 if self.currentSeconds <= 0 {
                     self.startTimer()
@@ -73,8 +80,12 @@ class ViewController: UIViewController {
         }
         self.timerStatus = .end
         self.cancelButton.isEnabled = false //취소버튼 비활성화
-        self.setTimerInfoViewVisble(isHidden: true) // TimerLabel, progreeView 표시 x
-        self.datePicker.isHidden = false
+        UIView.animate(withDuration: 0.5, animations: {
+            self.timerLabel.alpha = 0
+            self.progreeView.alpha = 0
+            self.datePicker.alpha = 1
+            self.imageView.transform = .identity //원상태로 돌아오게
+        })
         self.toggleButton.isSelected = false //시작
         self.timer?.cancel()
         self.timer = nil
@@ -96,8 +107,11 @@ class ViewController: UIViewController {
         case .end:
             self.currentSeconds = self.duration
             self.timerStatus = .start
-            self.setTimerInfoViewVisble(isHidden: false) // timerLabel, progreeView 나타남
-            self.datePicker.isHidden = true
+            UIView.animate(withDuration: 0.5, animations: {
+                self.timerLabel.alpha = 1
+                self.progreeView.alpha = 1
+                self.datePicker.alpha = 0 // datePicker 사라짐
+            })
             self.toggleButton.isSelected = true
             self.cancelButton.isEnabled = true
             self.startTimer()
