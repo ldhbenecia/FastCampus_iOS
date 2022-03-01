@@ -1,5 +1,5 @@
 # I learned this from this project
-#### 2022.02.15 ~
+#### 2022.02.15 ~ 2022.03.01
 
 ## :: FastCampus_iOS
 
@@ -21,3 +21,13 @@
 * self.progreeView.progress = Float(self.currentSeconds) / Float(self.duration)를 작성하여 progreeView도 시간이 줄어듦에 따라 줄어듦
 * import AudioToolbox
     - AudioServicesPlaySystemSound(1005) // 1005번 알림음 출력
+    
+* DispatchSourceTimer
+* UIView Animation
+    - UIView.animate(withDuration: 0.5, animation: {  
+    self.timerLabel.alpha = 0  
+    self.progreeView.alpha = 0  
+    self.datePicker.alpha = 1  
+})
+    - .alpha 코드를 통해 UIView 모습을 숨기거나 나타낼 수 있으며
+    - imageView.transform 메서드를 통해 2D 그래픽을 구현 가능
