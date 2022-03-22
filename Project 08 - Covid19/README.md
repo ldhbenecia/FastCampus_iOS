@@ -14,3 +14,5 @@
       로제타로 iterm을 실행하여 코드를 작성해 pod install 에러 해결
 
 * NavigationController 사용
+* CityCovidOverView.swift 
+    - 서버로부터 응답받은 Json data를 mapping하기 위해 만든 구조체 파일
