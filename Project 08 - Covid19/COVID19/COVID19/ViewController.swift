@@ -23,7 +23,7 @@ class ViewController: UIViewController {
             switch result {
             case let .success(result):
                 debugPrint("success \(result)")
-            case let . failure(error):
+            case let .failure(error):
                 debugPrint("error \(error)")
             }
         })
@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     ) {
         let url = "https://api.corona-19.kr/korea/country/new/"
         let param = [
-            "serviceKey:": "KW74XLGxNIFTeH5qDUyBsunE6VPAw8bmY"
+            "serviceKey": "KW74XLGxNIFTeH5qDUyBsunE6VPAw8bmY"
         ]
         
         AF.request(url, method: .get, parameters: param)
