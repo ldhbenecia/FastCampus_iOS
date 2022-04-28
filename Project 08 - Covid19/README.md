@@ -16,3 +16,6 @@
 * NavigationController 사용
 * CityCovidOverView.swift 
     - 서버로부터 응답받은 Json data를 mapping하기 위해 만든 구조체 파일
+
+* 프로젝트를 열 때 .xcodeproj로 열었는데 no such module 'Alamofire' 오류가 떠서 서칭해본 결과  
+    pod 라이브러리를 설치한 프로젝트 소스의 경우 .xcworkspace 파일로 열어야 한다.
