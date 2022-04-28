@@ -22,11 +22,16 @@ class ViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case let .success(result):
-                debugPrint("success \(result)")
+                self.configureStackView(koreaCovidOverView: result.korea)
             case let .failure(error):
                 debugPrint("error \(error)")
             }
         })
+    }
+    
+    func configureStackView(koreaCovidOverView: CovidOverView) {
+        self.totalCaseLabel.text = "\(koreaCovidOverView.totalCase) 명"
+        self.newCaseLabel.text = "\(koreaCovidOverView.newCase)"
     }
     
     func fetchCovidOverView(
@@ -43,13 +48,13 @@ class ViewController: UIViewController {
                 case let .success(data):
                     do {
                         let decoder = JSONDecoder()
-                        let result = try decoder.decode(CityCovideOverView.self, from: data)
+                        let result = try decoder.decode(CityCovidOverView.self, from: data)
                         completionHandler(.success(result))
                     } catch {
                         completionHandler(.failure(error))
                     }
                     
-                case let.failure(error):
+                case let .failure(error):
                     completionHandler(.failure(error))
                 }
             })
