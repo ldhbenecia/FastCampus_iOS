@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     
     // 계산 결과 값
     var result = ""
-    
+     
     // 현재 계산기에 어떤 연산자가 입력되었는 지 알 수 있게 연산자 값을 저장하는 프로퍼티
     var currentOperation: Operation = .unknown
     
@@ -107,7 +107,7 @@ class ViewController: UIViewController {
                     break
                 }
                 
-                // 결과 값을 1로 나누어 소수가 아니라면 소수점이 표시 안되게 함
+                // 결과 값을 1로 나누어 소수가 아니라면 소수점이 시 안되게 함
                 if let result = Double(self.result), result.truncatingRemainder(dividingBy: 1) == 0 {
                     self.result = "\(Int(result))"
                 }
