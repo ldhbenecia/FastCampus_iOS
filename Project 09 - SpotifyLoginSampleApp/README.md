@@ -3,7 +3,7 @@
 
 ## :: FastCampus_iOS
 
-- Ninth Project :: COVID19
+- Ninth Project :: Spotify-Login-Sample-App
 
 ##### 30 projects for Practicing iOS
 
