@@ -15,3 +15,7 @@
 
 * Firebase 서버로 이메일 아이디를 받는데 이미 등록된 이메일일 경우, 이메일이 아닐 경우 등등 에러처리
 * 에러일 경우 self.errorMessageLabel.text = error.localizedDescription 코드를 통해 자동으로 에러메세지 출력
+
+* Firebase를 백엔드로 사용하여 API Key가 그대로 올라와있다는 메일을 또 받음
+    - 다시 커밋 히스토리를 전부 지워야하나 생각해보고 문서 서칭
+    - Firebase의 API-Key는 Google 서버에서 Firebase 프로젝트만 식별하기 때문에 본안에 문제가 되지 않는다가 결론
