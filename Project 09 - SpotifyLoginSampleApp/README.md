@@ -21,3 +21,10 @@
     - Firebase의 API-Key는 Google 서버에서 Firebase 프로젝트만 식별하기 때문에 보안에 문제가 되지 않는다가 결론
     
 * LogOut 에러처리를 do-try-catch문으로 처리
+
+* Google 로그인을 사용하려면 맞춤 URL Schems를 구성해야함
+    - 처음 Firebase에서 가져온 GoogleService-Info에서 reverse client id를 복사해서  
+    프로젝트 target info에서 URL Types을 추가하고 URL Schemes에 붙여넣기 하면 사전작업 끝
+
+* Xcode 버전에 따라 Cocoapod 설치 등 오류가 너무 많이 나서 06.29(수)에 친 코드 전부 Reset
+    - 화가 난다..,
