@@ -19,3 +19,5 @@
 * Firebase를 백엔드로 사용하여 API Key가 그대로 올라와있다는 메일을 또 받음
     - 다시 커밋 히스토리를 전부 지워야하나 생각해보고 문서 서칭
     - Firebase의 API-Key는 Google 서버에서 Firebase 프로젝트만 식별하기 때문에 보안에 문제가 되지 않는다가 결론
+    
+* LogOut 에러처리를 do-try-catch문으로 처리
