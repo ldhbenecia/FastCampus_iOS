@@ -31,8 +31,14 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func logoutButtonTapped(_ sender: UIButton) {
+        let firbaseAuth = Auth.auth()
         
-        // 버튼 클릭 시 첫 화면으로 이동
-        self.navigationController?.popToRootViewController(animated: true)
+        do {
+            try firbaseAuth.signOut()
+            // 버튼 클릭 시 첫 화면으로 이동
+            self.navigationController?.popToRootViewController(animated: true)
+        } catch let signOutError as NSError {
+            print("ERROR: signout \(signOutError.localizedDescription)")
+        }
     }
 }
