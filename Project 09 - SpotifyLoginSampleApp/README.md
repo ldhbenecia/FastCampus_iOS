@@ -28,3 +28,5 @@
 
 * Xcode 버전에 따라 Cocoapod 설치 등 오류가 너무 많이 나서 06.29(수)에 친 코드 전부 Reset
     - 화가 난다..,
+* 구글 로그인 기능을 위해 podfile에 pod 'GoogleSignIn' 이후 터미널에서 pod install을 하면  
+    - [!] Unable to read the license file `LICENSE` for the spec `GoogleUtilities (7.7.0)` 에러 발생
