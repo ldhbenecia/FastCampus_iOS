@@ -1,5 +1,5 @@
 # I learned this from this project
-#### 2022.06.24 ~ 2022.
+#### 2022.06.24 ~ 2022.08.06
 
 ## :: FastCampus_iOS
 
@@ -31,3 +31,7 @@
 * 구글 로그인 기능을 위해 podfile에 pod 'GoogleSignIn' 이후 터미널에서 pod install을 하면  
     - [!] Unable to read the license file `LICENSE` for the spec `GoogleUtilities (7.7.0)` 에러 발생
     -> podfile.lock 삭제 이후 pod install 하였더니 해결 됨
+
+
+
+* 지속되는 오류로 인해 잠시 중단 - 2022.08.06(토)
